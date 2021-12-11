@@ -3,9 +3,38 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
+document.getElementById('modal').classList.add('hidden')
+
+const heartButton = document.querySelectorAll(".like-glyph")
+
+for (let button of heartButton) {
+  button.addEventListener("click", fillHeart)
+}
 
 
+function fillHeart(event) {
+  let button = event.target
+    mimicServerCall()
+    .then(() => {
+      if (button.innerText === EMPTY_HEART) {
+        button.className = 'activated-heart'
+        button.innerText = FULL_HEART
+        
+      } else  {
+        button.className = ''
+        button.innerText = EMPTY_HEART
+        
+      }
+      
+    })
 
+    .catch(error => {
+     let modal = document.getElementById('modal')
+     modal.className = ''
+     modal.innerText = error
+     setTimeout(() => modal.className = 'hidden', 3000)
+      })
+  }
 
 //------------------------------------------------------------------------------
 // Don't change the code below: this function mocks the server response
